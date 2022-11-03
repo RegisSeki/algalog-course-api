@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rtseki.algalogcourse.domain.model.Client;
 import com.rtseki.algalogcourse.domain.repository.ClientRepository;
+import com.rtseki.algalogcourse.domain.service.CatalogClientService;
 
 import lombok.AllArgsConstructor;
 
@@ -27,8 +27,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/clients")
 public class ClientController {
 
-	@Autowired
 	private ClientRepository clientRepository;
+	private CatalogClientService catalogClientService;
 	
 	@GetMapping
 	public List<Client> listAll() {
@@ -45,7 +45,7 @@ public class ClientController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Client create(@Valid @RequestBody Client client) {
-		return clientRepository.save(client);
+		return catalogClientService.save(client);
 	}
 	
 	@PutMapping("/{clientId}")
@@ -55,7 +55,7 @@ public class ClientController {
 		}
 		
 		client.setId(clientId);
-		client = clientRepository.save(client);
+		client = catalogClientService.save(client);
 		
 		return ResponseEntity.ok(client);
 	}
@@ -66,7 +66,7 @@ public class ClientController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		clientRepository.deleteById(clientId);
+		catalogClientService.delete(clientId);
 		return ResponseEntity.noContent().build();
 	}
 }
