@@ -15,6 +15,11 @@ public class CatalogClientService {
 	
 	private ClientRepository clientRepository;
 	
+	public Client findById(Long clientId) {
+		return clientRepository.findById(clientId)
+				.orElseThrow(() -> new BusinessException("Client not found"));
+	}
+	
 	@Transactional
 	public Client save(Client client) {
 		boolean isUsedEmail = clientRepository.findByEmail(client.getEmail())
