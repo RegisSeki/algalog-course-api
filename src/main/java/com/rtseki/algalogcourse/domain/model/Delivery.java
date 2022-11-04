@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.rtseki.algalogcourse.domain.exception.BusinessException;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +50,10 @@ public class Delivery {
 	private OffsetDateTime finishedDate;
 	
 	public Occurrence addOccurrence(String description) {
+		if (getStatus() == Status.FINISHED) {
+			throw new BusinessException("Delivery is finished, cannot add more occurrences");
+		}
+		
 		Occurrence occurrence = new Occurrence();
 		occurrence.setDescription(description);
 		occurrence.setRegisterDate(OffsetDateTime.now());
@@ -56,5 +62,22 @@ public class Delivery {
 		this.getOccurrences().add(occurrence);
 		
 		return occurrence;
+	}
+	
+	public void finalize() {
+		if (canNotBeFinalized()) {
+			throw new BusinessException("Delivery cannot be finalized");
+		}
+		
+		setStatus(Status.FINISHED);
+		setFinishedDate(OffsetDateTime.now());
+	}
+	
+	public boolean canBeFinalized() {
+		return Status.PENDING.equals(getStatus());
+	}
+	
+	public boolean canNotBeFinalized() {
+		return !canBeFinalized();
 	}
 }
