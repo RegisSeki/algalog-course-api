@@ -7,13 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.rtseki.algalogcourse.domain.ValidationGroups;
-
 import lombok.EqualsAndHashCode;
-import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +19,7 @@ import lombok.Setter;
 @Entity
 public class Client {
 
-	@NotNull(groups = ValidationGroups.ClientId.class)
-	@Include
+	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -42,14 +37,4 @@ public class Client {
 	@Size(max = 20)
 	@Column(name = "telephone")
 	private String phoneNumber;
-		
-	public Client() {
-	}
-	
-	public Client(Long id, String name, String email, String phoneNumber) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-	}
 }
