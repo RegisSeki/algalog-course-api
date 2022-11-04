@@ -1,6 +1,6 @@
 package com.rtseki.algalogcourse.domain.service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class RequestDeliveryService {
 		
 		delivery.setClient(client);
 		delivery.setStatus(Status.PENDING);
-		delivery.setOrderDate(LocalDateTime.now());
+		delivery.setOrderDate(OffsetDateTime.now());
 		
 		return deliveryRepository.save(delivery);
 	}	

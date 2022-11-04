@@ -1,6 +1,6 @@
 package com.rtseki.algalogcourse.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 		
 		problem.setStatus(status.value()); 
-		problem.setDateHour(LocalDateTime.now()); 
+		problem.setDateHour(OffsetDateTime.now()); 
 		problem.setTitle("One or more fields are not correct! Fill the fields correclty and try again!");
 		problem.setFields(fields);
 		
@@ -55,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		Problem problem = new Problem();
 		problem.setStatus(status.value()); 
-		problem.setDateHour(LocalDateTime.now()); 
+		problem.setDateHour(OffsetDateTime.now()); 
 		problem.setTitle(ex.getMessage());
 		
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
